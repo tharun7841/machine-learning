@@ -1,0 +1,32 @@
+import csv
+
+def find_s_algorithm(training_data):
+    # Initialize the most specific hypothesis with the first positive example
+    hypothesis = training_data[0][:-1]
+
+    # Iterate through the positive examples to find the most specific hypothesis
+    for example in training_data:
+        if example[-1] == 'Yes':  # Positive example
+            for i in range(len(hypothesis)):
+                if example[i] != hypothesis[i]:
+                    hypothesis[i] = '?'  # Replace attribute values with '?' if they don't match
+
+    return hypothesis
+
+def read_csv(file_path):
+    with open('/content/iris.csv', 'r') as csv_file:  # Corrected file path
+        reader = csv.reader(csv_file)
+        data = [row for row in reader]
+    return data
+
+def main():
+    # Assuming the CSV file has a header row and the last column is the class label
+    file_path = '/content/iris.csv'  # Corrected file path
+    training_data = read_csv(file_path)[1:]  # Exclude the header row
+
+    hypothesis = find_s_algorithm(training_data)
+
+    print("Most specific hypothesis:", hypothesis)
+
+if __name__ == "__main__":
+    main()
